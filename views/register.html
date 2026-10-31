@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - Banana Puzzle Game</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍌</text></svg>">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1 class="logo"><a href="/">🍌 Banana Math Quest</a></h1>
+      <nav class="nav-links">
+        <a href="/login" class="nav-link">Sign In</a>
+        <a href="/register" class="nav-link active">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="card auth-card">
+      <div class="card-header">
+        <h2>Create an Account</h2>
+        <p class="card-subtitle">Join now to save your high scores and streaks</p>
+      </div>
+
+      <div id="error" class="error-message" style="display: none;" role="alert"></div>
+
+      <form id="registerForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Choose a username"
+            required
+            autocomplete="username"
+            autofocus
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="At least 4 characters"
+            required
+            autocomplete="new-password"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Re-enter your password"
+            required
+            autocomplete="new-password"
+          >
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Register</button>
+      </form>
+
+      <div class="card-footer">
+        <p>Already have an account? <a href="/login">Sign in here</a></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- <footer>
+    <p>&copy; 2026 Banana Math Game. Powered by <a href="https://marcconrad.com/uob/banana/" target="_blank" rel="noopener">Marc Conrad's Banana API</a>.</p>
+  </footer> -->
+
+  <script src="/js/register.js"></script>
+</body>
+</html>

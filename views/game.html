@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banana Math Quest - Solve the Missing Digit</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍌</text></svg>">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1 class="logo"><a href="/game">🍌 Banana Math Quest</a></h1>
+      
+      <div class="user-nav">
+        <div class="user-badge" id="userBadge">
+          <span class="user-icon">👤</span>
+          <span id="usernameDisplay">Player</span>
+          <span class="high-score-badge" title="Personal Best High Score">🏆 High: <strong id="userHighScore">0</strong></span>
+        </div>
+        <button id="logoutBtn" type="button" class="btn btn-sm btn-outline-light" title="Sign out of your account">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="game-container">
+      <div class="game-header">
+        <h2>Find the Missing Digit</h2>
+        <p class="subtitle">Calculate the fruit equation and select the missing digit (<strong>0 – 9</strong>).</p>
+      </div>
+
+      <!-- Banana API Puzzle Image Section -->
+      <div class="image-wrapper" id="imageWrapper">
+        <div id="loadingState" class="loading-state">
+          <div class="spinner"></div>
+          <span>Loading Banana puzzle...</span>
+        </div>
+        <img id="puzzleImage" src="" alt="Banana Math Puzzle" style="display: none;">
+      </div>
+
+      <!-- Feedback message (clean, subtle) -->
+      <div id="feedbackBanner" class="feedback-banner" style="display: none;" role="status"></div>
+
+      <!-- Digit Keypad -->
+      <div class="answer-section">
+        <div class="keypad-grid" id="keypadGrid">
+          <button type="button" class="digit-btn" data-digit="0">0</button>
+          <button type="button" class="digit-btn" data-digit="1">1</button>
+          <button type="button" class="digit-btn" data-digit="2">2</button>
+          <button type="button" class="digit-btn" data-digit="3">3</button>
+          <button type="button" class="digit-btn" data-digit="4">4</button>
+          <button type="button" class="digit-btn" data-digit="5">5</button>
+          <button type="button" class="digit-btn" data-digit="6">6</button>
+          <button type="button" class="digit-btn" data-digit="7">7</button>
+          <button type="button" class="digit-btn" data-digit="8">8</button>
+          <button type="button" class="digit-btn" data-digit="9">9</button>
+        </div>
+      </div>
+
+      <!-- Simple Controls: Only Next Puzzle (NO separate play race button) -->
+      <div class="game-controls">
+        <button id="nextPuzzleBtn" type="button" class="btn btn-primary">
+          Next Puzzle
+        </button>
+      </div>
+
+      <!-- Scoreboard Strip -->
+      <div class="stats-panel">
+        <div class="stat-card">
+          <span class="stat-icon">🍌</span>
+          <div class="stat-data">
+            <span class="stat-number" id="scoreDisplay">0</span>
+            <span class="stat-title">Score</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-icon">🔥</span>
+          <div class="stat-data">
+            <span class="stat-number" id="streakDisplay">0</span>
+            <span class="stat-title">Streak</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-icon">🏆</span>
+          <div class="stat-data">
+            <span class="stat-number" id="bestScoreDisplay">0</span>
+            <span class="stat-title">Best</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       Minimal Turbo Car Racing Game (Opens automatically upon solving)
+       ======================================================== -->
+  <div id="raceModal" class="race-modal-overlay" style="display: none;" role="dialog" aria-modal="true">
+    <div class="race-arcade-box">
+      <div class="arcade-top-bar">
+        <!-- <span class="arcade-title">TURBO RACER</span> -->
+        <button id="closeRaceBtn" type="button" class="arcade-close" title="Back to Puzzle">&times;</button>
+      </div>
+
+      <!-- Pure Racing Screen -->
+      <div class="arcade-screen">
+        <canvas id="raceCanvas" width="360" height="450"></canvas>
+
+        <!-- Clean Arcade Game Over Screen -->
+        <div id="raceGameOverScreen" class="arcade-gameover" style="display: none;">
+          <div class="gameover-content">
+            <div class="gameover-title">GAME OVER</div>
+            <div id="gameOverReason" class="gameover-sub">OUT! TOUCHED SIDE LINE</div>
+            <div class="gameover-score">SCORE: <span id="goScore">0</span></div>
+            <button id="restartRaceBtn" type="button" class="arcade-btn">RESTART</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simple Mobile Touch Steer Controls -->
+      <div class="touch-controls" id="touchControls">
+        <button type="button" class="touch-btn" id="touchLeftBtn">◀ STEER LEFT</button>
+        <button type="button" class="touch-btn" id="touchRightBtn">STEER RIGHT ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Banana Math Game. All rights reserved.</p>
+  </footer>
+
+  <script src="/js/carRace.js"></script>
+  <script src="/js/game.js"></script>
+</body>
+</html>
