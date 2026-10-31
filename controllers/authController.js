@@ -59,20 +59,45 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: "Invalid username or password." });
     }
 
+    // Regenerate session ID on login to protect against session fixation attacks
     if (req.session) {
-      req.session.userId = user.id;
-      req.session.username = user.username;
-    }
+      req.session.regenerate((err) => {
+        if (err) {
+          console.error("Session regeneration error on login:", err);
+          return res.status(500).json({ error: "Failed to establish secure session." });
+        }
 
-    return res.json({
-      message: "Login successful",
-      user: {
-        id: user.id,
-        username: user.username,
-        high_score: user.high_score || 0,
-        games_played: user.games_played || 0
-      }
-    });
+        req.session.userId = user.id;
+        req.session.username = user.username;
+
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error("Session save error on login:", saveErr);
+            return res.status(500).json({ error: "Failed to save secure session." });
+          }
+
+          return res.json({
+            message: "Login successful",
+            user: {
+              id: user.id,
+              username: user.username,
+              high_score: user.high_score || 0,
+              games_played: user.games_played || 0
+            }
+          });
+        });
+      });
+    } else {
+      return res.json({
+        message: "Login successful",
+        user: {
+          id: user.id,
+          username: user.username,
+          high_score: user.high_score || 0,
+          games_played: user.games_played || 0
+        }
+      });
+    }
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ error: "Failed to log in. Please try again." });
@@ -80,15 +105,24 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
+  const cookieOptions = {
+    path: "/",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production"
+  };
+
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
+        console.error("Logout session destruction error:", err);
         return res.status(500).json({ error: "Could not log out." });
       }
-      res.clearCookie("banana_sid");
+      res.clearCookie("banana_sid", cookieOptions);
       return res.json({ message: "Logged out successfully" });
     });
   } else {
+    res.clearCookie("banana_sid", cookieOptions);
     return res.json({ message: "Logged out successfully" });
   }
 };
